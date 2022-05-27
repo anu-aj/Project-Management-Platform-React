@@ -53,11 +53,13 @@ const Login = () => {
       .catch(function (error) {
         console.log(error);
       });
+
+    // another role req
   };
 
   return (
     <div>
-      <Navbar authstatus={isauthenticated} />
+      <Navbar />
       <Grid templateColumns="repeat(2, 1fr)" gap={6}>
         <GridItem>
           <Flex
@@ -168,7 +170,7 @@ const Login = () => {
           </Flex>
         </GridItem>
       </Grid>
-      {isauthenticated ? <Navigate to="/dashboard" replace /> : <></>}
+      {isauthenticated ? <Navigate to="/redirect" replace /> : <></>}
     </div>
   );
 };

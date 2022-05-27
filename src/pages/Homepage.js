@@ -15,9 +15,9 @@ export default function HomePage() {
     <>
       <Navbar />
       <div className="Home" style={myStyle}>
-        <div class="centered_typing">
-          <div class="wrapper_type_head">
-            <div class="typing-demo_head">Project Management Platform</div>
+        <div className="centered_typing">
+          <div className="wrapper_type_head">
+            <div className="typing-demo_head">Project Management Platform</div>
           </div>
         </div>
       </div>

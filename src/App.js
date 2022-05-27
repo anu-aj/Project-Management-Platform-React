@@ -2,8 +2,12 @@ import "./App.css";
 // Pages & Components imports
 import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
-import DashBoard from "./pages/DashBoard";
-import ProtectedRoute from "./components/ProtectedRoute";
+import RedirectUser from "./pages/RedirectUser";
+
+// Base dashboards for each user role
+import Staffpage from "./pages/Staffpage";
+import Studentpage from "./pages/Studentpage";
+
 // Routing imports
 import {
   BrowserRouter,
@@ -38,11 +42,29 @@ function App() {
           <Route index element={<Homepage />} />
           <Route path="login" element={<Login />} />
           <Route
-            path="dashboard"
+            path="redirect"
             element={
               <PrivateRoute>
-                <DashBoard user={user} />
+                <RedirectUser user={user} />
               </PrivateRoute>
+            }
+          />
+          {/* Staff Dashboard */}
+          <Route
+            path="faculty-dashboard"
+            element={
+              <PrivateFaculty>
+                <Staffpage />
+              </PrivateFaculty>
+            }
+          />
+          {/* Student Dashboard */}
+          <Route
+            path="student-dashboard"
+            element={
+              <PrivateStudent>
+                <Studentpage />
+              </PrivateStudent>
             }
           />
           <Route
@@ -65,10 +87,52 @@ const useAuth = () => {
   }
 };
 
+// handle faculty routes
+const useFaculty = () => {
+  const auth = useAuth();
+  const role = localStorage.getItem("user-role");
+  if (auth) {
+    if (role === "faculty" || role === "Faculty" || role === "FACULTY") {
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    return false;
+  }
+};
+
+// Handle Student Routes
+const useStudent = () => {
+  const auth = useAuth();
+  const role = localStorage.getItem("user-role");
+  if (auth) {
+    if (role === "student" || role === "Student" || role === "STUDENT") {
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    return false;
+  }
+};
+
 // Handle private routes
 function PrivateRoute({ children }) {
   const auth = useAuth();
   return auth ? children : <Navigate to="/" />;
+}
+
+// handle only staff accessible routes
+function PrivateFaculty({ children }) {
+  const isFaculty = useFaculty();
+  return isFaculty ? children : <Navigate to="/" />;
+}
+
+// handle only student accessible routes
+function PrivateStudent({ children }) {
+  const isStudent = useStudent();
+  return isStudent ? children : <Navigate to="/" />;
 }
 
 export default App;

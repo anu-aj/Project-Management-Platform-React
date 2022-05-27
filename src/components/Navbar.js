@@ -59,6 +59,7 @@ const MenuItem = ({ children, isLast, to = "/", ...rest }) => {
 const logout = () => {
   localStorage.removeItem("userdata");
   localStorage.removeItem("jwt");
+  localStorage.removeItem("user-role");
 };
 
 const MenuLinks = ({ isOpen }) => {
