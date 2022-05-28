@@ -30,6 +30,8 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isauthenticated, setIsAuthenticated] = useState(null);
+  // set initail user data
+  const [user, setUser] = useState("");
   // login payload
   let userdata = {
     identifier: username,
@@ -44,6 +46,7 @@ const Login = () => {
         // console.log(response.data.jwt);
         localStorage.setItem("userdata", JSON.stringify(response.data.user));
         localStorage.setItem("jwt", JSON.stringify(response.data.jwt));
+        setUser(response.data.user);
         // console.log(response.data.user);
         // setCurruser(JSON.parse(localStorage.getItem("userdata")));
         // console.log(currUser);

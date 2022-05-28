@@ -19,12 +19,19 @@ import {
 } from "react-router-dom";
 
 // React imports
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("userdata"))
   );
+  useEffect(() => {
+    if (localStorage.getItem("userdata")) {
+      setUser(JSON.parse(localStorage.getItem("userdata")));
+    } else {
+      setUser({});
+    }
+  }, []);
 
   // const handleLogin = () => setUser({ id: "1", name: "Robin" });
   // const handleLogout = () => setUser(null);
@@ -54,7 +61,7 @@ function App() {
             path="faculty-dashboard"
             element={
               <PrivateFaculty>
-                <Staffpage />
+                <Staffpage user={user} />
               </PrivateFaculty>
             }
           />

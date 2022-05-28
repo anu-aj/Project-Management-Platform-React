@@ -1,11 +1,10 @@
 import { React, useState } from "react";
 import { Box, Flex, Text, Button, Stack } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import NavLogo from "./NavLogo";
 
 const Navbar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
-
   const toggle = () => setIsOpen(!isOpen);
 
   return (
@@ -55,14 +54,15 @@ const MenuItem = ({ children, isLast, to = "/", ...rest }) => {
   );
 };
 
-// logout functionality
-const logout = () => {
-  localStorage.removeItem("userdata");
-  localStorage.removeItem("jwt");
-  localStorage.removeItem("user-role");
-};
-
 const MenuLinks = ({ isOpen }) => {
+  const [clearData, setClearData] = useState(false);
+  // logout functionality
+  const logout = () => {
+    localStorage.removeItem("userdata");
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("user-role");
+    setClearData(true);
+  };
   return (
     <Box
       display={{ base: isOpen ? "block" : "none", md: "block" }}
@@ -82,14 +82,16 @@ const MenuLinks = ({ isOpen }) => {
         </MenuItem>
         {localStorage.getItem("userdata") ? (
           <MenuItem>
-            <Text onClick={logout} color="black">
+            <Text cursor="pointer" onClick={logout} color="black">
               Logout
             </Text>
           </MenuItem>
         ) : (
           <MenuItem>
             <Link to="/login">
-              <Text color="black">Login</Text>
+              <Text cursor="pointer" color="black">
+                Login
+              </Text>
             </Link>
           </MenuItem>
         )}
@@ -119,6 +121,7 @@ const MenuLinks = ({ isOpen }) => {
           </Link>
         </MenuItem>
       </Stack>
+      {clearData ? <Navigate to="/" replace /> : <></>}
     </Box>
   );
 };
