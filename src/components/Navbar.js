@@ -1,6 +1,6 @@
 import { React, useState } from "react";
 import { Box, Flex, Text, Button, Stack } from "@chakra-ui/react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import NavLogo from "./NavLogo";
 
 const Navbar = (props) => {
@@ -56,6 +56,7 @@ const MenuItem = ({ children, isLast, to = "/", ...rest }) => {
 
 const MenuLinks = ({ isOpen }) => {
   const [clearData, setClearData] = useState(false);
+  const location = useLocation();
   // logout functionality
   const logout = () => {
     localStorage.removeItem("userdata");
@@ -80,6 +81,18 @@ const MenuLinks = ({ isOpen }) => {
             <Text color="black">Home</Text>
           </Link>
         </MenuItem>
+        {localStorage.getItem("user-role") ? (
+          <MenuItem>
+            <Link to="/redirect">
+              <Text color="black">DashBoard</Text>
+              {/* {console.log(location.pathname)} */}
+            </Link>
+          </MenuItem>
+        ) : location.pathname == "faculty-dashboard" ? (
+          <></>
+        ) : (
+          <></>
+        )}
         {localStorage.getItem("userdata") ? (
           <MenuItem>
             <Text cursor="pointer" onClick={logout} color="black">
@@ -101,7 +114,7 @@ const MenuLinks = ({ isOpen }) => {
           </Link>
         </MenuItem>
         <MenuItem isLast>
-          <Link to="/Explore">
+          <Link to="/explore-projects">
             <Button
               size="sm"
               rounded="md"
@@ -116,7 +129,7 @@ const MenuLinks = ({ isOpen }) => {
                 ],
               }}
             >
-              Explore
+              Explore Projects
             </Button>
           </Link>
         </MenuItem>

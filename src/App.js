@@ -20,6 +20,7 @@ import {
 
 // React imports
 import { useState, useEffect } from "react";
+import ExploreProjects from "./pages/ExploreProjects";
 
 function App() {
   const [user, setUser] = useState(
@@ -48,6 +49,7 @@ function App() {
         <Routes>
           <Route index element={<Homepage />} />
           <Route path="login" element={<Login />} />
+          <Route path="explore-projects" element={<ExploreProjects />} />
           <Route
             path="redirect"
             element={

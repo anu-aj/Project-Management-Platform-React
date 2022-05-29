@@ -21,6 +21,9 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import axios from "axios";
+import ProjectEdit from "./ProjectEdit";
+import DeadlineFixer from "./DeadlineFixer";
+import DeleteProject from "./DeleteProject";
 
 function Project({ eachproject }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -44,6 +47,7 @@ function Project({ eachproject }) {
         console.log(error);
       });
   };
+
   //   Hook to call project details API
   useEffect(() => {
     getUsersInvolved();
@@ -72,16 +76,34 @@ function Project({ eachproject }) {
             </Text>
             <Text fontWeight="light">GitHub Link : {eachproject.gh_link}</Text>
           </Stack>
+          <Stack align="center">
+            <Text fontWeight="medium">
+              {/* Deadline : */}
+              {eachproject.Deadline ? (
+                <Box>
+                  Deadline: {eachproject.Deadline} <br />
+                  <DeadlineFixer eachproject={eachproject} />
+                </Box>
+              ) : (
+                <Box mt="3">
+                  <Text>No Deadline set, Please set a deadline</Text>
+                  <DeadlineFixer eachproject={eachproject} />
+                </Box>
+              )}
+            </Text>
+          </Stack>
           <Flex>
             <Spacer />
             <Button
               variant="solid"
+              m="5"
               colorScheme="green"
               size="sm"
               onClick={onOpen}
             >
               Learn More
             </Button>
+            <Spacer />
             <Modal finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
               <ModalOverlay />
               <ModalContent>
@@ -126,7 +148,20 @@ function Project({ eachproject }) {
                 </ModalFooter>
               </ModalContent>
             </Modal>
+            {/* CRUD for projects */}
           </Flex>
+          <Box display="flex" flexDirection="row" flexWrap="wrap" gap="2">
+            <Box>
+              {/* <Button size="sm">Update project details</Button> */}
+              <ProjectEdit eachproject={eachproject} />
+            </Box>
+            <Box>
+              {/* <Button onClick={deleteProject} size="sm">
+                Delete Project
+              </Button> */}
+              <DeleteProject eachproject={eachproject} />
+            </Box>
+          </Box>
         </Box>
       </Box>
     </div>
