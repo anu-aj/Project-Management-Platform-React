@@ -101,7 +101,7 @@ function Project({ eachproject }) {
               size="sm"
               onClick={onOpen}
             >
-              Learn More
+              Users Involved
             </Button>
             <Spacer />
             <Modal finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
@@ -133,11 +133,7 @@ function Project({ eachproject }) {
                       </Text>
                     );
                   })}
-                  <Text fontWeight="light">
-                    {/* {users_involved.map((eachuser) => {
-                      return <h1 key={eachuser.id}>{eachuser.username}</h1>;
-                    })} */}
-                  </Text>
+                  {/* <Text fontWeight="light"></Text> */}
                 </ModalBody>
 
                 <ModalFooter>

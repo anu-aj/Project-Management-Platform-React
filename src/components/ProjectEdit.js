@@ -23,11 +23,22 @@ import {
 import axios from "axios";
 import React from "react";
 import { useState } from "react";
+// import Select from "react-select";
 
 const ProjectEdit = ({ eachproject }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = React.useRef();
-
+  const options = [
+    { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" },
+  ];
+  const deptoptions = [
+    { value: "CSE", label: "CSE" },
+    { value: "ECE", label: "ECE" },
+    { value: "IT", label: "IT" },
+    { value: "MECH", label: "MECH" },
+  ];
   //   Update project details function
   const [projectname, setProjectName] = useState("");
   const [projectdesc, setProjectDesc] = useState("");
@@ -134,7 +145,9 @@ const ProjectEdit = ({ eachproject }) => {
                   <FormLabel htmlFor="dept">Edit Department</FormLabel>
                   <Select
                     id="dept"
-                    defaultValue={eachproject.Dept}
+                    // options={deptoptions}
+                    // isMulti={false}
+                    defaultValue={eachproject.Dept.toLowerCase()}
                     onChange={(e) => {
                       setDept(e.target.value);
                     }}
@@ -146,6 +159,13 @@ const ProjectEdit = ({ eachproject }) => {
                   </Select>
                 </Box>
               </Stack>
+              {/* <Stack mt="5">
+                <Box>
+                  <FormLabel htmlFor="users_involved">
+                    <Select options={options} />
+                  </FormLabel>
+                </Box>
+              </Stack> */}
             </DrawerBody>
             {/* <Text p="2" fontSize="sm">
               <Badge>Note:</Badge>These changes can also be done in student end
