@@ -17,6 +17,8 @@ import {
 import Navbar from "../components/Navbar";
 import Createstudent from "../components/Createstudent";
 import RemoveStudent from "../components/RemoveStudent";
+import EditStudent from "../components/EditStudent";
+import * as qs from "qs";
 
 const Staffpage = () =>
   // { user }
@@ -27,8 +29,17 @@ const Staffpage = () =>
     const curJWT = JSON.parse(localStorage.getItem("jwt"));
     const user = JSON.parse(localStorage.getItem("userdata"));
     const getallusers = async () => {
+      // query to get role
+      const query = qs.stringify(
+        {
+          populate: ["user_role"],
+        },
+        {
+          encodeValuesOnly: true,
+        }
+      );
       await axios
-        .get(`http://localhost:1337/api/users`, {
+        .get(`http://localhost:1337/api/users?${query}`, {
           headers: {
             Authorization: `Bearer ${curJWT}`,
           },
@@ -89,6 +100,9 @@ const Staffpage = () =>
               </MenuItem>
               <MenuItem>
                 <RemoveStudent allUsers={allUsers} />
+              </MenuItem>
+              <MenuItem>
+                <EditStudent allUsers={allUsers} />
               </MenuItem>
               {/* <MenuItem>Mark as Draft</MenuItem>
               <MenuItem>Delete</MenuItem>
