@@ -147,7 +147,9 @@ const ProjectEdit = ({ eachproject }) => {
                     id="dept"
                     // options={deptoptions}
                     // isMulti={false}
-                    defaultValue={eachproject.Dept.toLowerCase()}
+                    defaultValue={
+                      eachproject.Dept ? eachproject.Dept.toLowerCase() : "CSE"
+                    }
                     onChange={(e) => {
                       setDept(e.target.value);
                     }}

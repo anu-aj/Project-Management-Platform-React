@@ -14,6 +14,10 @@ import {
   FormLabel,
   Input,
   InputGroup,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
   Select,
   Textarea,
   DrawerFooter,
@@ -24,8 +28,10 @@ import {
 } from "@chakra-ui/react";
 import * as qs from "qs";
 import axios from "axios";
-import Project from "../components/Project";
+import Project from "../components/Student/Project";
 import { Link } from "react-router-dom";
+import CreateProject from "../components/CreateProject";
+import EditProjectStudent from "../components/EditProjectStudent";
 
 const StudentDashboard = (userl) => {
   const [projects_undertaken, setProjectsUndertaken] = useState([]);
@@ -54,7 +60,7 @@ const StudentDashboard = (userl) => {
         },
       })
       .then((res) => {
-        // console.log("Users list", res.data);
+        console.log("Users list", res.data);
         setAllUsers(res.data);
         // setRole(res.data.user_role.role_name);
       })
@@ -90,6 +96,34 @@ const StudentDashboard = (userl) => {
   return (
     <>
       <Navbar />
+      <Box
+        display="flex"
+        flexDirection="row"
+        justifyContent="space-between"
+        px="10"
+      >
+        <Box></Box>
+        <Menu>
+          <MenuButton as={Button}>Control Dock ⏬</MenuButton>
+          <MenuList>
+            <MenuItem>
+              <CreateProject allUsers={allUsers} />
+            </MenuItem>
+            {/* <MenuItem>
+              <EditProjectStudent
+                allUsers={allUsers}
+                // projects_undertaken={projects_undertaken}
+              />
+            </MenuItem> */}
+            {/* <MenuItem>
+              <EditStudent allUsers={allUsers} />
+            </MenuItem> */}
+            {/* <MenuItem>Mark as Draft</MenuItem>
+              <MenuItem>Delete</MenuItem>
+              <MenuItem>Attend a Workshop</MenuItem> */}
+          </MenuList>
+        </Menu>
+      </Box>
       {/* {console.log("data from login page", newuserinfo)} */}
       {/* {console.log(Role)} */}
       {Role === "student" && userrole === "student" ? (
@@ -105,7 +139,7 @@ const StudentDashboard = (userl) => {
             {projects_undertaken.map((each) => {
               return (
                 <Box>
-                  <Project key={each.id} eachproject={each} />
+                  <Project Role={Role} key={each.id} eachproject={each} />
                 </Box>
               );
             })}
