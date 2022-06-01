@@ -22,6 +22,7 @@ import axios from "axios";
 
 // Router imports
 import { Navigate } from "react-router-dom";
+import StudentDashboard from "./Studentpage";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -31,7 +32,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [isauthenticated, setIsAuthenticated] = useState(null);
   // set initail user data
-  const [user, setUser] = useState("");
+  const [userl, setUserl] = useState("");
   // login payload
   let userdata = {
     identifier: username,
@@ -46,12 +47,13 @@ const Login = () => {
         // console.log(response.data.jwt);
         localStorage.setItem("userdata", JSON.stringify(response.data.user));
         localStorage.setItem("jwt", JSON.stringify(response.data.jwt));
-        setUser(response.data.user);
+        setUserl(response.data.user);
         // console.log(response.data.user);
         // setCurruser(JSON.parse(localStorage.getItem("userdata")));
         // console.log(currUser);
         // return <Navigate to="/" replace />;
         setIsAuthenticated(true);
+        // console.log(user);
       })
       .catch(function (error) {
         console.log(error);
@@ -173,6 +175,10 @@ const Login = () => {
           </Flex>
         </GridItem>
       </Grid>
+      {/* <Box display="none"> */}
+      {/* {console.log(userl)} */}
+      {/* <StudentDashboard userl={userl} /> */}
+      {/* </Box> */}
       {isauthenticated ? <Navigate to="/redirect" replace /> : <></>}
     </div>
   );

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { React, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Project from "../components/Project";
 import {
   Text,
@@ -28,6 +29,9 @@ const Staffpage = () =>
     const [allUsers, setAllUsers] = useState([]);
     const curJWT = JSON.parse(localStorage.getItem("jwt"));
     const user = JSON.parse(localStorage.getItem("userdata"));
+    const userrole = localStorage.getItem("user-role");
+    const [Role, setRole] = useState("");
+
     const getallusers = async () => {
       // query to get role
       const query = qs.stringify(
@@ -66,6 +70,7 @@ const Staffpage = () =>
           console.log("fetched projects......");
           // console.log(response.data.projects_undertaken);
           setProjectsUndertaken(response.data.projects_undertaken);
+          setRole(response.data.user_role.role_name);
         })
         .catch(function (error) {
           console.log(error);
@@ -85,49 +90,62 @@ const Staffpage = () =>
     return (
       <div>
         <Navbar />
-        <Box
-          display="flex"
-          flexDirection="row"
-          justifyContent="space-between"
-          px="10"
-        >
-          <Box></Box>
-          <Menu>
-            <MenuButton as={Button}>Control Dock ⏬</MenuButton>
-            <MenuList>
-              <MenuItem>
-                <Createstudent />
-              </MenuItem>
-              <MenuItem>
-                <RemoveStudent allUsers={allUsers} />
-              </MenuItem>
-              <MenuItem>
-                <EditStudent allUsers={allUsers} />
-              </MenuItem>
-              {/* <MenuItem>Mark as Draft</MenuItem>
+        {Role === "faculty" && userrole === "faculty" ? (
+          <>
+            <Box
+              display="flex"
+              flexDirection="row"
+              justifyContent="space-between"
+              px="10"
+            >
+              <Box></Box>
+              <Menu>
+                <MenuButton as={Button}>Control Dock ⏬</MenuButton>
+                <MenuList>
+                  <MenuItem>
+                    <Createstudent />
+                  </MenuItem>
+                  <MenuItem>
+                    <RemoveStudent allUsers={allUsers} />
+                  </MenuItem>
+                  <MenuItem>
+                    <EditStudent allUsers={allUsers} />
+                  </MenuItem>
+                  {/* <MenuItem>Mark as Draft</MenuItem>
               <MenuItem>Delete</MenuItem>
               <MenuItem>Attend a Workshop</MenuItem> */}
-            </MenuList>
-          </Menu>
-        </Box>
+                </MenuList>
+              </Menu>
+            </Box>
 
-        <Text fontSize="4xl">Welcome {user.username}</Text>
-        {/* {console.log(projects_undertaken)} */}
-        <Text fontSize="2xl">These are the projects you are involved in</Text>
-        <Box
-          display="flex"
-          flexDirection="row"
-          justifyContent="space-evenly"
-          flexWrap="wrap"
-        >
-          {projects_undertaken.map((each) => {
-            return (
-              <Box>
-                <Project key={each.id} eachproject={each} />
-              </Box>
-            );
-          })}
-        </Box>
+            <Text fontSize="4xl">Welcome {user.username}</Text>
+            {/* {console.log(projects_undertaken)} */}
+            <Text fontSize="2xl">
+              These are the projects you are involved in
+            </Text>
+            <Box
+              display="flex"
+              flexDirection="row"
+              justifyContent="space-evenly"
+              flexWrap="wrap"
+            >
+              {projects_undertaken.map((each) => {
+                return (
+                  <Box>
+                    <Project key={each.id} eachproject={each} />
+                  </Box>
+                );
+              })}
+            </Box>
+          </>
+        ) : (
+          <>
+            <Text>
+              You are registered as student, please use{" "}
+              <Link to="/student-dashboard">your own dashboard.</Link>
+            </Text>
+          </>
+        )}
       </div>
     );
   };

@@ -32,10 +32,13 @@ const RemoveStudent = ({ allUsers }) => {
 
   const useroptions = [];
   allUsers.map((eachuser) => {
-    const user = new Object();
-    user.value = eachuser.id;
-    user.label = eachuser.username;
-    useroptions.push(user);
+    if (eachuser.user_role.role_name != "faculty") {
+      const user = new Object();
+      user.value = eachuser.id;
+      user.label = eachuser.username;
+      useroptions.push(user);
+    }
+
     // console.log();
   });
   console.log(useroptions);
