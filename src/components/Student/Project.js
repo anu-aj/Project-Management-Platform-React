@@ -26,6 +26,7 @@ import axios from "axios";
 // import DeadlineFixer from "./DeadlineFixer";
 // import DeleteProject from "./DeleteProject";
 import EditProjectStudent from "../EditProjectStudent";
+import Completionsetter from "./Completionsetter";
 
 function Project({ eachproject }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -106,6 +107,24 @@ function Project({ eachproject }) {
               )}
             </Text>
           </Stack>
+          <Stack align="center">
+            {eachproject.Completion_status ? (
+              <>
+                <Text
+                  fontSize="md"
+                  fontWeight="bold"
+                  p="1"
+                  bgColor="blue.300"
+                  rounded="lg"
+                  my={2}
+                >
+                  {eachproject.Completion_status}
+                </Text>
+              </>
+            ) : (
+              <>No Completion Status Found</>
+            )}
+          </Stack>
           <Flex>
             <Spacer />
             <Button
@@ -161,12 +180,13 @@ function Project({ eachproject }) {
             {/* CRUD for projects */}
           </Flex>
           <Box display="flex" flexDirection="column" flexWrap="wrap" gap="2">
-            <Box>
+            <Box display="flex" flexDirection="row" flexWrap="wrap" gap="2">
               {/* <Button size="sm">Update project details</Button> */}
               <EditProjectStudent
                 users_involved={users_involved}
                 eachproject={eachproject}
               />
+              {/* <Completionsetter eachproject={eachproject} /> */}
             </Box>
           </Box>
         </Box>

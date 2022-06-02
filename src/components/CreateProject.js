@@ -79,7 +79,8 @@ const CreateProject = ({ allUsers }) => {
       users_involved: reqarray,
     },
   };
-  //   console.log("payload", reqpayload);
+  console.log("payload", reqpayload);
+  console.log("incharge staff", staffID);
   //   create project function
   const createProject = async () => {
     await axios
@@ -116,13 +117,14 @@ const CreateProject = ({ allUsers }) => {
             <Box>
               <label htmlFor="project_name">Enter your Project name</label>
               <Input
+                required={true}
                 onChange={(e) => {
                   setProjectname(e.target.value);
                 }}
                 placeholder="Enter your project title"
               />
             </Box>
-            <Box>
+            <Box my="5">
               <label htmlFor="project_desc">
                 Enter your Project description
               </label>
@@ -143,7 +145,7 @@ const CreateProject = ({ allUsers }) => {
                 placeholder="Enter the github link"
               />
             </Box>
-            <Box>
+            <Box my="5">
               <label htmlFor="staff selecetion">
                 Select your Incharge staff
               </label>
@@ -154,7 +156,9 @@ const CreateProject = ({ allUsers }) => {
               />
             </Box>
             <Box>
-              <label htmlFor="team selection">Select your teammates</label>
+              <label htmlFor="team selection">
+                Select Team members including you
+              </label>
               <Select
                 isMulti={true}
                 onChange={handlesubmitteam}
@@ -167,7 +171,18 @@ const CreateProject = ({ allUsers }) => {
             <Button variant="outline" mr={3} onClick={onClose}>
               Cancel
             </Button>
-            <Button onClick={createProject} colorScheme="green">
+            <Button
+              disabled={
+                projectname != "" &&
+                projectdesc != "" &&
+                staffID.length != 0 &&
+                studentID.length != 0
+                  ? false
+                  : true
+              }
+              onClick={createProject}
+              colorScheme="green"
+            >
               Create a new project
             </Button>
           </DrawerFooter>
