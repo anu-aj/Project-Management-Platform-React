@@ -24,6 +24,7 @@ import axios from "axios";
 import ProjectEdit from "./ProjectEdit";
 import DeadlineFixer from "./DeadlineFixer";
 import DeleteProject from "./DeleteProject";
+import * as qs from "qs";
 
 function Project({ eachproject }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -33,8 +34,20 @@ function Project({ eachproject }) {
 
   //   projectdetails function
   const getUsersInvolved = async () => {
+    const query = qs.stringify(
+      {
+        populate: {
+          users_involved: {
+            populate: ["user_role"],
+          },
+        },
+      },
+      {
+        encodeValuesOnly: true,
+      }
+    );
     await axios
-      .get(`http://localhost:1337/api/projects/${eachproject.id}?populate=*`, {
+      .get(`http://localhost:1337/api/projects/${eachproject.id}?${query}`, {
         headers: {
           Authorization: `Bearer ${curJWT}`,
         },
@@ -75,6 +88,18 @@ function Project({ eachproject }) {
               {eachproject.project_description}
             </Text>
             <Text fontWeight="light">GitHub Link : {eachproject.gh_link}</Text>
+          </Stack>
+          <Stack align="center">
+            <Text
+              bg="blue.300"
+              p="1"
+              rounded="lg"
+              as="h2"
+              fontWeight="normal"
+              my={2}
+            >
+              {eachproject.Completion_status}
+            </Text>
           </Stack>
           <Stack align="center">
             <Text fontWeight="medium">
@@ -149,7 +174,10 @@ function Project({ eachproject }) {
           <Box display="flex" flexDirection="row" flexWrap="wrap" gap="2">
             <Box>
               {/* <Button size="sm">Update project details</Button> */}
-              <ProjectEdit eachproject={eachproject} />
+              <ProjectEdit
+                users_involved={users_involved}
+                eachproject={eachproject}
+              />
             </Box>
             <Box>
               {/* <Button onClick={deleteProject} size="sm">

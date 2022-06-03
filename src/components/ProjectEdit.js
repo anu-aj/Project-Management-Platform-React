@@ -12,7 +12,7 @@ import {
   FormLabel,
   Input,
   InputGroup,
-  Select,
+  // Select,
   Textarea,
   DrawerFooter,
   InputLeftAddon,
@@ -22,27 +22,97 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import React from "react";
-import { useState } from "react";
-// import Select from "react-select";
+import * as qs from "qs";
+import { useState, useEffect } from "react";
+import Select from "react-select";
 
-const ProjectEdit = ({ eachproject }) => {
+const ProjectEdit = ({ eachproject, users_involved, curuser }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [allUsers, setAllUsers] = useState([]);
+  const [studentID, setStudentID] = useState([]);
+  const user = JSON.parse(localStorage.getItem("userdata"));
+  const [Department, setDept] = useState("");
   const firstField = React.useRef();
-  const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
+
+  const getallusers = async () => {
+    // query to get role
+    const query = qs.stringify(
+      {
+        populate: ["user_role"],
+      },
+      {
+        encodeValuesOnly: true,
+      }
+    );
+    await axios
+      .get(`http://localhost:1337/api/users?${query}`, {
+        headers: {
+          Authorization: `Bearer ${curJWT}`,
+        },
+      })
+      .then((res) => {
+        console.log("Users list", res.data);
+        setAllUsers(res.data);
+        // setRole(res.data.user_role.role_name);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const teamoptions = [];
+  const defoptions = [];
+  const reqarray = [];
+
+  users_involved.map((eachuser) => {
+    if (
+      eachuser.attributes.user_role.data.attributes.role_name === "student" ||
+      eachuser.attributes.user_role.data.attributes.role_name === "faculty"
+    ) {
+      const user = new Object();
+      user.value = eachuser.id;
+      user.label = eachuser.attributes.username;
+      defoptions.push(user);
+    }
+  });
+
+  allUsers.map((eachuser) => {
+    if (eachuser.user_role.role_name === "student") {
+      const user = new Object();
+      user.value = eachuser.id;
+      user.label = eachuser.username;
+      teamoptions.push(user);
+    }
+  });
+
+  const handlesubmitteam = (teamoptions) => {
+    setStudentID(teamoptions);
+  };
+
+  const handledept = (deptoptions) => {
+    setDept(deptoptions.value);
+  };
+
+  studentID.map((eachstudent) => {
+    const studentID = eachstudent.value;
+    reqarray.push(studentID);
+  });
+
+  const defreqarray = [];
+  defoptions.map((eachoptions) => {
+    defreqarray.push(eachoptions.value);
+  });
+
   const deptoptions = [
     { value: "CSE", label: "CSE" },
     { value: "ECE", label: "ECE" },
     { value: "IT", label: "IT" },
     { value: "MECH", label: "MECH" },
   ];
+
   //   Update project details function
   const [projectname, setProjectName] = useState("");
   const [projectdesc, setProjectDesc] = useState("");
-  const [dept, setDept] = useState("");
+  // const [dept, setDept] = useState("");
   const curJWT = JSON.parse(localStorage.getItem("jwt"));
   //   let selectgrp = document.getElementById("dept");
   //   let updateddept = selectgrp.options[selectgrp.selectedIndex].value;
@@ -50,13 +120,15 @@ const ProjectEdit = ({ eachproject }) => {
   const updatedProjectPayload = {
     data: {
       project_name: projectname ? projectname : eachproject.project_name,
-      Dept: dept ? dept.toUpperCase() : eachproject.Dept,
+      Dept: Department ? Department : eachproject.Dept,
       project_description: projectdesc
         ? projectdesc
         : eachproject.project_description,
+      users_involved: reqarray.length == 0 ? defreqarray : reqarray,
     },
   };
-  console.log(updatedProjectPayload);
+  // console.log("users involved", users_involved);
+  console.log("total payload", updatedProjectPayload);
   const updateProject = async () => {
     await axios
       .put(
@@ -75,6 +147,11 @@ const ProjectEdit = ({ eachproject }) => {
         console.log(err);
       });
   };
+
+  useEffect(() => {
+    // getProjectDetails();
+    getallusers();
+  }, []);
   return (
     <>
       <>
@@ -84,6 +161,7 @@ const ProjectEdit = ({ eachproject }) => {
         <Drawer
           isOpen={isOpen}
           placement="right"
+          size="lg"
           initialFocusRef={firstField}
           onClose={onClose}
         >
@@ -145,29 +223,36 @@ const ProjectEdit = ({ eachproject }) => {
                   <FormLabel htmlFor="dept">Edit Department</FormLabel>
                   <Select
                     id="dept"
-                    // options={deptoptions}
-                    // isMulti={false}
+                    options={deptoptions}
+                    isMulti={false}
                     defaultValue={
-                      eachproject.Dept ? eachproject.Dept.toLowerCase() : "CSE"
+                      eachproject.Dept
+                        ? { value: eachproject.Dept, label: eachproject.Dept }
+                        : { value: "CSE", label: "CSE" }
                     }
-                    onChange={(e) => {
-                      setDept(e.target.value);
-                    }}
-                  >
-                    <option value="cse">CSE</option>
+                    onChange={handledept}
+                  />
+                  {/* <option value="cse">CSE</option>
                     <option value="ece">ECE</option>
                     <option value="it">IT</option>
-                    <option value="mech">MECH</option>
-                  </Select>
+                    <option value="mech">MECH</option> */}
+                  {/* </Select> */}
                 </Box>
               </Stack>
-              {/* <Stack mt="5">
+              <Stack mt="5">
                 <Box>
-                  <FormLabel htmlFor="users_involved">
-                    <Select options={options} />
+                  <FormLabel htmlFor="team selection">
+                    Edit this project's team (Don't remove yourself from the
+                    team)
                   </FormLabel>
+                  <Select
+                    isMulti={true}
+                    onChange={handlesubmitteam}
+                    defaultValue={defoptions}
+                    options={teamoptions}
+                  />
                 </Box>
-              </Stack> */}
+              </Stack>
             </DrawerBody>
             {/* <Text p="2" fontSize="sm">
               <Badge>Note:</Badge>These changes can also be done in student end
