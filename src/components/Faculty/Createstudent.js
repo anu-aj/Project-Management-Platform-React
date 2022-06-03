@@ -23,13 +23,16 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
+import { useToast } from "@chakra-ui/react";
 
 const Createstudent = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [success, setsucess] = useState(false);
   const [studentUsername, setStudentUsername] = useState("");
   const [StudentEmail, setStudentEmail] = useState("");
   const [StudentPassword, setStudentPassword] = useState("");
   const curJWT = JSON.parse(localStorage.getItem("jwt"));
+  const toast = useToast();
   const studentpayload = {
     username: studentUsername,
     email: StudentEmail,
@@ -39,7 +42,7 @@ const Createstudent = () => {
     role: 3,
     user_role: 2,
   };
-  console.log(studentpayload);
+  // console.log(studentpayload);
 
   const createStudent = async () => {
     await axios
@@ -49,16 +52,38 @@ const Createstudent = () => {
         },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
+        toast({
+          title: "Student created.",
+          description: `We've created account for ${studentUsername}`,
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+        setsucess(true);
+        onClose();
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
+        toast({
+          title: "Student Not created.",
+          description: `Error: ${err}`,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
       });
   };
   const btnRef = React.useRef();
   return (
     <>
-      <Button ref={btnRef} colorScheme="green" size="md" onClick={onOpen}>
+      <Button
+        ref={btnRef}
+        w="full"
+        colorScheme="green"
+        size="md"
+        onClick={onOpen}
+      >
         Add a new student to the portal
       </Button>
       <Drawer

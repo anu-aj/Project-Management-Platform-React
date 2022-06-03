@@ -1,7 +1,8 @@
 import axios from "axios";
 import { React, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Project from "../components/Project";
+import Project from "../components/Faculty/Project";
+import Loading from "../components/utils/Loading";
 import {
   Text,
   Box,
@@ -15,10 +16,10 @@ import {
   MenuOptionGroup,
   MenuDivider,
 } from "@chakra-ui/react";
-import Navbar from "../components/Navbar";
-import Createstudent from "../components/Createstudent";
-import RemoveStudent from "../components/RemoveStudent";
-import EditStudent from "../components/EditStudent";
+import Navbar from "../components/Globals/Navbar";
+import Createstudent from "../components/Faculty/Createstudent";
+import RemoveStudent from "../components/Faculty/RemoveStudent";
+import EditStudent from "../components/Faculty/EditStudent";
 import * as qs from "qs";
 
 const Staffpage = () =>
@@ -77,6 +78,11 @@ const Staffpage = () =>
         });
     };
     useEffect(() => {
+      if (projects_undertaken.length === 0) {
+        <>
+          <Loading />
+        </>;
+      }
       // function call
       // if (user == null) {
       //   // setUser
@@ -88,7 +94,7 @@ const Staffpage = () =>
     }, []);
 
     return (
-      <div>
+      <Box mb="10">
         <Navbar />
         {Role === "faculty" && userrole === "faculty" ? (
           <>
@@ -121,13 +127,16 @@ const Staffpage = () =>
             <Text fontSize="4xl">Welcome {user.username}</Text>
             {/* {console.log(projects_undertaken)} */}
             <Text fontSize="2xl">
-              These are the projects you are involved in
+              {projects_undertaken.length === 0
+                ? "No projects"
+                : "These are the projects you are involved in"}
             </Text>
             <Box
               display="flex"
               flexDirection="row"
               justifyContent="space-evenly"
               flexWrap="wrap"
+              gap="5"
             >
               {projects_undertaken.map((each) => {
                 return (
@@ -146,7 +155,7 @@ const Staffpage = () =>
             </Text>
           </>
         )}
-      </div>
+      </Box>
     );
   };
 

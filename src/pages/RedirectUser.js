@@ -2,7 +2,10 @@ import { React, useEffect, useState } from "react";
 import { Routes, Route, Link, Navigate } from "react-router-dom";
 import * as qs from "qs";
 import axios from "axios";
+import { useToast, Box } from "@chakra-ui/react";
+import Loading from "../components/utils/Loading";
 const RedirectUser = ({ user }) => {
+  const toast = useToast();
   // current user state
   const [curuser, setCuruser] = useState(
     JSON.parse(localStorage.getItem("userdata"))
@@ -35,7 +38,14 @@ const RedirectUser = ({ user }) => {
         localStorage.setItem("user-role", response.data.user_role.role_name);
       })
       .catch(function (error) {
-        console.log(error);
+        // console.log(error);
+        return toast({
+          title: "Error on Role designation",
+          description: error,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
       });
   };
   useEffect(() => {
@@ -52,9 +62,9 @@ const RedirectUser = ({ user }) => {
           <Navigate to="/student-dashboard" replace />
         </div>
       ) : (
-        <h1>
-          OOPS! <br /> You landed Nowhere{" "}
-        </h1>
+        <>
+          <Loading />
+        </>
       )}
 
       {/* <p>Name : {curuser.username}</p>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Text } from "@chakra-ui/react";
-import SIST from "../imgs/SIST.png";
+import SIST from "../../imgs/SIST.png";
 
 export default function NavLogo(props) {
   return (

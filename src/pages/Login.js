@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Flex,
   Heading,
@@ -17,16 +17,19 @@ import {
 } from "@chakra-ui/react";
 import { Grid, GridItem } from "@chakra-ui/react";
 import SIST from "../imgs/SIST.png";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Globals/Navbar";
+import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 
 // Router imports
 import { Navigate } from "react-router-dom";
 import StudentDashboard from "./Studentpage";
+import { BsFillPersonFill, BsFillLockFill } from "react-icons/bs";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const handleShowClick = () => setShowPassword(!showPassword);
+  const toast = useToast();
   // useState for creds
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -61,6 +64,17 @@ const Login = () => {
 
     // another role req
   };
+  useEffect(() => {
+    if (isauthenticated) {
+      toast({
+        title: "Logged in Successfully",
+        status: "success",
+        duration: "3000",
+        isClosable: true,
+        position: "top",
+      });
+    }
+  }, [isauthenticated, toast]);
 
   return (
     <div>
@@ -106,7 +120,7 @@ const Login = () => {
                       <InputGroup>
                         <InputLeftElement
                           pointerEvents="none"
-                          //   children={<>User</>}
+                          children={<BsFillPersonFill />}
                         />
                         {/* <label>Username</label> */}
                         <Input
@@ -126,7 +140,7 @@ const Login = () => {
                         <InputLeftElement
                           pointerEvents="none"
                           color="gray.300"
-                          //   children={<>Password</>}
+                          children={<BsFillLockFill />}
                         />
                         <Input
                           value={password}

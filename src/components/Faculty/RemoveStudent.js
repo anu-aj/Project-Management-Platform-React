@@ -24,11 +24,13 @@ import {
 import Select from "react-select";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useToast } from "@chakra-ui/react";
 
 const RemoveStudent = ({ allUsers }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [studentUsername, setStudentUsername] = useState("");
   const curJWT = JSON.parse(localStorage.getItem("jwt"));
+  const toast = useToast();
 
   const useroptions = [];
   allUsers.map((eachuser) => {

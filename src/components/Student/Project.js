@@ -25,7 +25,7 @@ import axios from "axios";
 // import ProjectEdit from "./ProjectEdit";
 // import DeadlineFixer from "./DeadlineFixer";
 // import DeleteProject from "./DeleteProject";
-import EditProjectStudent from "../EditProjectStudent";
+import EditProjectStudent from "./EditProjectStudent";
 import Completionsetter from "./Completionsetter";
 
 function Project({ eachproject }) {

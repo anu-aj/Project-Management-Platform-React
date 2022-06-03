@@ -1,6 +1,6 @@
 import React from "react";
 import sistimg from "../imgs/sist1.jpg";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Globals/Navbar";
 import "../App.css";
 const myStyle = {
   backgroundImage: `url(${sistimg})`,

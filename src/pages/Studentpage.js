@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Globals/Navbar";
 import {
   useDisclosure,
   Box,
@@ -30,8 +30,9 @@ import * as qs from "qs";
 import axios from "axios";
 import Project from "../components/Student/Project";
 import { Link } from "react-router-dom";
-import CreateProject from "../components/CreateProject";
-import EditProjectStudent from "../components/EditProjectStudent";
+import Loading from "../components/utils/Loading";
+import CreateProject from "../components/Student/CreateProject";
+import EditProjectStudent from "../components/Student/EditProjectStudent";
 
 const StudentDashboard = (userl) => {
   const [projects_undertaken, setProjectsUndertaken] = useState([]);
@@ -90,11 +91,16 @@ const StudentDashboard = (userl) => {
 
   // calling the projects
   useEffect(() => {
+    if (projects_undertaken.length === 0) {
+      <>
+        <Loading />
+      </>;
+    }
     getProjectDetails();
     getallusers();
   }, []);
   return (
-    <>
+    <Box mb="10">
       <Navbar />
       <Box
         display="flex"
@@ -128,7 +134,7 @@ const StudentDashboard = (userl) => {
       {/* {console.log(Role)} */}
       {Role === "student" && userrole === "student" ? (
         <Box>
-          <Text fontSize="4xl">Welocome {userlo.username}</Text>
+          <Text fontSize="4xl">Welcome {userlo.username}</Text>
           <Text fontSize="2xl">These are the projects you are involved</Text>
           <Box
             display="flex"
@@ -155,7 +161,7 @@ const StudentDashboard = (userl) => {
       )}
 
       <Box></Box>
-    </>
+    </Box>
   );
 };
 
