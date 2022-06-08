@@ -15,6 +15,7 @@ import {
   // Select,
   Textarea,
   DrawerFooter,
+  useToast,
   InputLeftAddon,
   InputRightAddon,
   Text,
@@ -33,6 +34,7 @@ const ProjectEdit = ({ eachproject, users_involved, curuser }) => {
   const user = JSON.parse(localStorage.getItem("userdata"));
   const [Department, setDept] = useState("");
   const firstField = React.useRef();
+  const toast = useToast();
 
   const getallusers = async () => {
     // query to get role
@@ -142,9 +144,24 @@ const ProjectEdit = ({ eachproject, users_involved, curuser }) => {
       )
       .then((res) => {
         console.log(res);
+        toast({
+          title: "Project Edited successfully...",
+          description: `Status : ${res.status}`,
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+        onClose();
       })
       .catch((err) => {
         console.log(err);
+        toast({
+          title: "Project Updation failed...",
+          description: `Status : ${err.status}`,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
       });
   };
 

@@ -21,6 +21,7 @@ import {
   ModalCloseButton,
   useDisclosure,
 } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 // import ProjectEdit from "./ProjectEdit";
 // import DeadlineFixer from "./DeadlineFixer";
@@ -33,6 +34,7 @@ function Project({ eachproject }) {
   const { colorMode, toggleColorMode } = useColorMode();
   const [users_involved, setUsersInvolved] = useState([]);
   const curJWT = JSON.parse(localStorage.getItem("jwt"));
+  const toast = useToast();
 
   //   projectdetails function
   const getUsersInvolved = async () => {
@@ -55,7 +57,7 @@ function Project({ eachproject }) {
         },
       })
       .then(function (response) {
-        console.log(response.data.data.attributes.users_involved.data);
+        // console.log(response.data.data.attributes.users_involved.data);
         setUsersInvolved(response.data.data.attributes.users_involved.data);
       })
       .catch(function (error) {

@@ -14,6 +14,7 @@ import {
 import {
   Modal,
   ModalOverlay,
+  useToast,
   ModalContent,
   ModalHeader,
   ModalFooter,
@@ -31,6 +32,7 @@ const DeadlineFixer = ({ eachproject }) => {
   const curJWT = JSON.parse(localStorage.getItem("jwt"));
   //   for date
   const [startDate, setStartDate] = useState(new Date());
+  const toast = useToast();
 
   //   const formatter = (datestring) => {
   //     let date = datestring.toJSON().slice(0, 10);
@@ -60,9 +62,24 @@ const DeadlineFixer = ({ eachproject }) => {
       )
       .then((res) => {
         console.log(res);
+        toast({
+          title: "Deadline Updated Successfully...",
+          description: `Status : ${res.status}`,
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+        onClose();
       })
       .catch((err) => {
         console.log(err);
+        toast({
+          title: "Deadline Updation Failed...",
+          description: `Status : ${err.status}`,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
       });
   };
   return (

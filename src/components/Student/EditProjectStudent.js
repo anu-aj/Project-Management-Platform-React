@@ -21,12 +21,14 @@ import {
   InputRightAddon,
   Text,
   Badge,
+  useToast,
 } from "@chakra-ui/react";
 import Select from "react-select";
 import axios from "axios";
 
 const EditProjectStudent = ({ eachproject, users_involved }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
   const btnRef = React.useRef();
   const [allUsers, setAllUsers] = useState([]);
   const [staffID, setStaffID] = useState([]);
@@ -147,9 +149,23 @@ const EditProjectStudent = ({ eachproject, users_involved }) => {
       })
       .then((res) => {
         console.log(res);
+        toast({
+          title: "Project Details Updated...",
+          description: `Status : ${res.status}`,
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
+        toast({
+          title: "Project Details Updation Failed...",
+          description: `Status : ${err.status}`,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
       });
   };
   return (

@@ -14,6 +14,7 @@ import {
   Input,
   InputGroup,
   //   Select,
+  useToast,
   Textarea,
   DrawerFooter,
   InputLeftAddon,
@@ -33,6 +34,7 @@ const CreateProject = ({ allUsers }) => {
   const [projectdesc, setProjectdesc] = useState("");
   const [projectghlink, setProjectghlink] = useState("");
   const curJWT = JSON.parse(localStorage.getItem("jwt"));
+  const toast = useToast();
   //   faculty selection options
   const facoptions = [];
   const teamoptions = [];
@@ -90,10 +92,24 @@ const CreateProject = ({ allUsers }) => {
         },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
+        toast({
+          title: "Project Created successfully...",
+          description: `Status : ${res.status}`,
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
+        toast({
+          title: "Project Creation Failed...",
+          description: `Status : ${err.status}`,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
       });
   };
   return (

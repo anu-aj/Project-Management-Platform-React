@@ -20,6 +20,7 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  useToast,
   useDisclosure,
   FormLabel,
   Input,
@@ -31,6 +32,7 @@ const DeleteProject = ({ eachproject }) => {
   const [email, setEmail] = useState("");
   const curJWT = JSON.parse(localStorage.getItem("jwt"));
   const useremail = JSON.parse(localStorage.getItem("userdata"));
+  const toast = useToast();
   // delete project
   const deleteProject = async () => {
     if (checkboxstate === true && email === useremail.email) {
@@ -42,10 +44,25 @@ const DeleteProject = ({ eachproject }) => {
         })
         .then((res) => {
           console.log(res);
+          toast({
+            title: "Student Deleted Successfully...",
+            description: `Status : ${res.status}`,
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
           setCheckboxState(false);
+          onClose();
         })
         .catch((err) => {
           console.log(err);
+          toast({
+            title: "Student Deletion Failed...",
+            description: `Status : ${err.status}`,
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          });
         });
     } else {
     }

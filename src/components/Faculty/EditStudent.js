@@ -14,6 +14,7 @@ import {
   InputGroup,
   //   Select,
   Textarea,
+  useToast,
   DrawerFooter,
   InputLeftAddon,
   InputRightAddon,
@@ -34,6 +35,7 @@ const EditStudent = ({ allUsers }) => {
   const [email, setEmail] = useState("");
   const curJWT = JSON.parse(localStorage.getItem("jwt"));
   const btnRef = React.useRef();
+  const toast = useToast();
 
   const useroptions = [];
   allUsers.map((eachuser) => {
@@ -65,10 +67,25 @@ const EditStudent = ({ allUsers }) => {
         },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
+        toast({
+          title: "Student Details Updated...",
+          description: `Status : ${res.status}`,
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+        onClose();
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
+        toast({
+          title: "Student Details Updation Failed...",
+          description: `Status : ${err.status}`,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
       });
   };
   return (

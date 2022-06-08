@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import { Box, Flex, Text, Button, Stack } from "@chakra-ui/react";
+import { Box, Flex, Text, Button, Stack, useToast } from "@chakra-ui/react";
 import { Link, Navigate, useLocation } from "react-router-dom";
 import NavLogo from "./NavLogo";
 
@@ -57,12 +57,19 @@ const MenuItem = ({ children, isLast, to = "/", ...rest }) => {
 const MenuLinks = ({ isOpen }) => {
   const [clearData, setClearData] = useState(false);
   const location = useLocation();
+  const toast = useToast();
   // logout functionality
   const logout = () => {
     localStorage.removeItem("userdata");
     localStorage.removeItem("jwt");
     localStorage.removeItem("user-role");
     setClearData(true);
+    // toast({
+    //   title: "Logged out of your account successfully...",
+    //   status: "success",
+    //   duration: 3000,
+    //   isClosable: true,
+    // });
   };
   return (
     <Box
