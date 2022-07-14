@@ -136,14 +136,14 @@ function Project({ eachproject }) {
               size="sm"
               onClick={onOpen}
             >
-              Users Involved
+              Students Involved
             </Button>
             <Spacer />
             <Modal finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
               <ModalOverlay />
               <ModalContent>
                 <ModalHeader>
-                  <Text fontSize="2xl">Users Involved in project</Text>
+                  <Text fontSize="2xl">Students Involved in project</Text>
                   <Text fontSize="2xl" color="blue.800">
                     {eachproject.project_name}
                   </Text>

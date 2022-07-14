@@ -3,6 +3,7 @@ import "./App.css";
 import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
 import RedirectUser from "./pages/RedirectUser";
+import About from "./pages/About";
 
 // Base dashboards for each user role
 import Staffpage from "./pages/Staffpage";
@@ -20,7 +21,7 @@ import {
 
 // React imports
 import { useState, useEffect } from "react";
-import ExploreProjects from "./pages/ExploreProjects";
+import Explore from "./pages/Explore";
 
 function App() {
   const [user, setUser] = useState(
@@ -49,7 +50,8 @@ function App() {
         <Routes>
           <Route index element={<Homepage />} />
           <Route path="login" element={<Login />} />
-          <Route path="explore-projects" element={<ExploreProjects />} />
+          <Route path="About" element={<About />} />
+          <Route path="explore" element={<Explore />} />
           <Route
             path="redirect"
             element={
@@ -76,10 +78,7 @@ function App() {
               </PrivateStudent>
             }
           />
-          <Route
-            path="*"
-            element={<p>Yaarna irukeengala Amaidhiya irukudhu!!!</p>}
-          />
+          <Route path="*" element={<p>Page not found!</p>} />
         </Routes>
       </BrowserRouter>
     </div>

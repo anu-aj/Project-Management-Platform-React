@@ -40,7 +40,11 @@ const MenuIcon = () => (
 
 const MenuToggle = ({ toggle, isOpen }) => {
   return (
-    <Box display={{ base: "block", md: "none" }} onClick={toggle}>
+    <Box
+      display={{ base: "block", md: "none" }}
+      backgroundColor={{ base: "#831238", md: "transparent" }}
+      onClick={toggle}
+    >
       {isOpen ? <CloseIcon /> : <MenuIcon />}
     </Box>
   );
@@ -115,13 +119,13 @@ const MenuLinks = ({ isOpen }) => {
             </Link>
           </MenuItem>
         )}
-        <MenuItem>
+        {/* <MenuItem>
           <Link to="/About">
             <Text color="black">About</Text>
           </Link>
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem isLast>
-          <Link to="/explore-projects">
+          <Link to="/explore">
             <Button
               size="sm"
               rounded="md"
@@ -136,7 +140,7 @@ const MenuLinks = ({ isOpen }) => {
                 ],
               }}
             >
-              Explore Projects
+              Explore
             </Button>
           </Link>
         </MenuItem>
