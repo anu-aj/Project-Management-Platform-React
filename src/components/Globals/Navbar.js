@@ -8,7 +8,7 @@ const Navbar = (props) => {
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <NavBarContainer {...props}>
+    <NavBarContainer boxShadow="2xl" {...props}>
       <NavLogo w="100px" />
       <MenuToggle toggle={toggle} isOpen={isOpen} />
       <MenuLinks isOpen={isOpen} />

@@ -85,7 +85,7 @@ const Login = () => {
             flexDirection="column"
             width="100wh"
             height="100vh"
-            backgroundColor="gray.200"
+            // backgroundColor="gray.200"
             justifyContent="center"
             alignItems="center"
           >
@@ -94,6 +94,7 @@ const Login = () => {
         </GridItem>
         <GridItem>
           <Flex
+            id="login_bg_image"
             flexDirection="column"
             width="100wh"
             height="100vh"
@@ -107,7 +108,7 @@ const Login = () => {
               justifyContent="center"
               alignItems="center"
             >
-              <Heading color="teal.400">Login</Heading>
+              {/* <Heading color="white">Login</Heading> */}
               <Box minW={{ base: "90%", md: "468px" }}>
                 <form>
                   <Stack
@@ -116,6 +117,7 @@ const Login = () => {
                     backgroundColor="whiteAlpha.900"
                     boxShadow="md"
                   >
+                    <Heading color="teal">Login</Heading>
                     <FormControl>
                       <InputGroup>
                         <InputLeftElement
